@@ -13,10 +13,10 @@
     <link rel="shortcut icon" href="favicon.ico">
 
     <!-- FontAwesome JS-->
-    <script defer src="assets/plugins/fontawesome/js/all.min.js"></script>
+    <script defer src="{{ asset('assets/plugins/fontawesome/js/all.min.js') }}"></script>
 
     <!-- App CSS -->
-    <link id="theme-style" rel="stylesheet" href="assets/css/portal.css">
+    <link id="theme-style" rel="stylesheet" href="{{ asset('assets/css/portal.css') }}">
 
 </head>
 
@@ -28,7 +28,13 @@
 				    <div class="app-auth-branding mb-4"><a class="app-logo" href="index.html"><img class="logo-icon me-2" src="assets/images/app-logo.svg" alt="logo"></a></div>
 					<h2 class="auth-heading text-center mb-5">Connectez-vous à uDrive</h2>
 			        <div class="auth-form-container text-start">
-						<form class="auth-form login-form">
+						<form class="auth-form login-form" method="POST" action="{{route('handleLogin')}}">
+                            @csrf
+                            @method('POST')
+
+                            @if(Session::get('error_msg'))
+                                <b>{{Session::get('error_msg')}}</b>
+                            @endif
 							<div class="email mb-3">
 								<label class="sr-only" for="signin-email">Email</label>
 								<input id="signin-email" name="signin-email" type="email" class="form-control signin-email" placeholder="Email address" required="required">

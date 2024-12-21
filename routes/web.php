@@ -8,5 +8,7 @@ use App\Http\Controllers\AdminController;
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'handleLogin'])->name('handleLogin');
 
-//Routes administrateur
-Route::get('admin', [AdminController::class, 'index'])->name('admin');
+//Routes Dashboard
+Route::middleware('auth')->group(function() {
+    Route::get('admin', [AdminController::class, 'index'])->name('admin');
+});
