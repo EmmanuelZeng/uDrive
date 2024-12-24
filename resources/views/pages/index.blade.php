@@ -1,4 +1,4 @@
-@extends('dashboard')
+@extends('app')
 
 @section('content')
     <h1 class="app-page-title">Espace Accueil</h1>

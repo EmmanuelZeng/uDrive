@@ -28,7 +28,7 @@
 				    <div class="app-auth-branding mb-4"><a class="app-logo" href="index.html"><img class="logo-icon me-2" src="assets/images/app-logo.svg" alt="logo"></a></div>
 					<h2 class="auth-heading text-center mb-5">Connectez-vous à uDrive</h2>
 			        <div class="auth-form-container text-start">
-						<form class="auth-form login-form" method="POST" action="{{route('handleLogin')}}">
+						<form class="auth-form login-form" method="POST" action="{{route('store')}}">
                             @csrf
                             @method('POST')
                             @if(Session::get('error_msg'))
@@ -36,7 +36,10 @@
                             @endif
 
 							{{-- {{Hash::make(12345)}}; --}}
-
+                            <div class="name mb-3">
+								<label class="sr-only" for="signin-name">Nom</label>
+								<input id="signin-name" name="name" type="text" class="form-control signin-name" placeholder="Nom" required="required">
+							</div><!--//form-group-->
 							<div class="email mb-3">
 								<label class="sr-only" for="signin-email">Email</label>
 								<input id="signin-email" name="email" type="email" class="form-control signin-email" placeholder="Email address" required="required">
@@ -45,8 +48,16 @@
 								<label class="sr-only" for="signin-password">Mot de passe</label>
 								<input id="signin-password" name="password" type="password" class="form-control signin-password" placeholder="Password" required="required">
 							</div><!--//form-group-->
+                            <div class="password mb-3">
+                                <label class="sr-only" for="signin-role">Role</label>
+                                <select name="role_id" id="signin-role">
+                                    @foreach ($roles as $role)
+                                        <option value="{{$role->id}}"> {{$role->name}} </option>
+                                    @endforeach
+                                </select>
+							</div>
 							<div class="text-center">
-								<button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Se connecter</button>
+								<button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Créer</button>
 							</div>
 						</form>
 					</div><!--//auth-form-container-->
