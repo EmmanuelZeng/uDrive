@@ -22,7 +22,7 @@
                 </li><!--//nav-item-->
                 <li class="nav-item">
                     <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                    <a class="nav-link active" href="{{route('dashboard')}}">
+                    <a class="nav-link" href="{{route('dashboard')}}" :active="request()->is('dashboard')">
                         <span class="nav-icon">
                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house-door" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z"/>
@@ -74,7 +74,7 @@
                     </a><!--//nav-link-->
                     <div id="submenu-1" class="collapse submenu submenu-1" data-bs-parent="#menu-accordion">
                         <ul class="submenu-list list-unstyled">
-                            <li class="submenu-item"><a class="submenu-link" href="notifications.html">Fichiers Partagés</a></li>
+                            <li class="submenu-item"><a class="submenu-link" href="{{route('sharedFiles')}}">Fichiers Partagés</a></li>
                             <li class="submenu-item"><a class="submenu-link" href="account.html">Corbeille</a></li>
                         </ul>
                     </div>
@@ -96,15 +96,18 @@
                              <span class="nav-link-text">Aide</span>
                         </a><!--//nav-link-->
                     </li><!--//nav-item-->
-                    <li class="nav-item">
-                        <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
-                        <a class="nav-link" href="help.html">
-                            <span class="nav-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
-                             </span>
-                             <span class="nav-link-text">Logout</span>
-                        </a><!--//nav-link-->
-                    </li><!--//nav-item-->
+                    <form action="{{route('logout')}}" method="POST">
+                        @csrf
+                        <li class="nav-item">
+                            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+                            <a class="nav-link" href="{{route('login')}}" onclick="event.preventDefault(); this.closest('form').submit();">
+                                <span class="nav-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"/></svg>
+                                 </span>
+                                 <span class="nav-link-text">Déconnexion</span>
+                            </a><!--//nav-link-->
+                        </li><!--//nav-item-->
+                    </form>
                 </ul>
             </div>
         </div>
