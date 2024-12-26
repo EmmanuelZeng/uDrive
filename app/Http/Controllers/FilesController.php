@@ -35,21 +35,21 @@ class FilesController extends Controller
         ]);
 
         $uploadedFiles = [];
-            foreach ($request->file('files') as $uploadedFile) {
-                $path = $uploadedFile->store('files/' . auth()->id(), 'public');
+        foreach ($request->file('files') as $uploadedFile) {
+            $path = $uploadedFile->store('files/' . auth()->id(), 'public');
+            $size = $uploadedFile->getSize();
 
-                $file = auth()->user()->files()->create([
-                    'name' => $uploadedFile->getClientOriginalName(),
-                    'original_name' => $uploadedFile->getClientOriginalName(),
-                    'mime_type' => $uploadedFile->getMimeType(),
-                    'size' => $size,
-                    'path' => $path,
-                    'folder_id' => $request->folder_id
-                ]);
-                $uploadedFiles[] = $file;
-            }
-
-            return redirect()->back();
+            $file = auth()->user()->files()->create([
+                'name' => $uploadedFile->getClientOriginalName(),
+                'original_name' => $uploadedFile->getClientOriginalName(),
+                'mime_type' => $uploadedFile->getMimeType(),
+                'size' => $size,
+                'path' => $path,
+                'folder_id' => $request->folder_id
+            ]);
+            $uploadedFiles[] = $file;
+        }
+        return redirect()->back();
     }
 
     public function destroy(File $file)
@@ -57,5 +57,13 @@ class FilesController extends Controller
         Storage::disk('public')->delete($file->path);
         $file->delete();
         return redirect()->route('files.index');
+    }
+
+    public function download(File $file)
+    {
+    return Storage::disk('public')->download(
+        $file->path,
+        $file->original_name
+    );
     }
 }
