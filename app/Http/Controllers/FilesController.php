@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,12 +35,8 @@ class FilesController extends Controller
         ]);
 
         $uploadedFiles = [];
-
-        DB::beginTransaction();
-        try {
             foreach ($request->file('files') as $uploadedFile) {
                 $path = $uploadedFile->store('files/' . auth()->id(), 'public');
-                $size = $uploadedFile->getSize();
 
                 $file = auth()->user()->files()->create([
                     'name' => $uploadedFile->getClientOriginalName(),
@@ -51,16 +48,14 @@ class FilesController extends Controller
                 ]);
                 $uploadedFiles[] = $file;
             }
-            DB::commit();
 
-            return redirect()->back()
-                ->with('success', 'Files uploaded successfully');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            foreach ($uploadedFiles as $file) {
-                Storage::disk('public')->delete($file->path);
-            }
-            return redirect()->back()->withErrors(['error' => 'Failed to upload files']);
-        }
+            return redirect()->back();
+    }
+
+    public function destroy(File $file)
+    {
+        Storage::disk('public')->delete($file->path);
+        $file->delete();
+        return redirect()->route('files.index');
     }
 }
