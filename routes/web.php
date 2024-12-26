@@ -22,9 +22,8 @@ Route::middleware('auth')->group(function() {
     Route::get('admin', [AdminController::class, 'index'])->name('admin');
     //Routes users simples
     Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
-    Route::get('dashboard/files', [FilesController::class, 'index'])->name('files.index');
+    Route::resource('dashboard/files', FilesController::class);
     Route::get('dashboard/folders', [FoldersController::class, 'index'])->name('folders.index');
     Route::get('dashboard/sharedFiles', [SharedFilesController::class, 'index'])->name('sharedFiles');
-
 });
 

@@ -51,6 +51,7 @@
     </div><!--//app-wrapper-->
     @yield('modal')
     <!-- Javascript -->
+
     <script src="{{ asset('assets/plugins/popper.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 
@@ -61,6 +62,16 @@
     <!-- Page Specific JS -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
 
+    <script>
+        function openBoite() {
+          document.getElementById("file_import").classList.remove("d-none");
+          document.getElementById("inputLibelle").focus();
+        }
+
+        function closeBoite() {
+          document.getElementById("file_import").classList.add("d-none");
+        }
+    </script>
 </body>
 </html>
 
