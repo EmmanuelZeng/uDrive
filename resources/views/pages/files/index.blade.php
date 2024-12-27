@@ -59,7 +59,7 @@
                             </li>
                             <li>
                                 <div data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    <a class="dropdown-item">
+                                    <a class="dropdown-item" href="#">
                                         <i class="fa-solid fa-share"></i>
                                         Partager
                                     </a>
@@ -100,24 +100,29 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="POST">
-                        @csrf
-                        <label for="">Sélectionner un utilisateur</label>
-                        @foreach($users as $user)
-                            <div class="d-flex flex-column gap-2">
-                                <div class="form-check">
-                                    <input name="user_ids[]" class="form-check-input" type="checkbox" value="{{ $user->id }}" id="user_{{ $user->id }}">
-                                    <label class="form-check-label" for="user_{{ $user->id }}">
-                                        {{ $user->name }}
-                                    </label>
-                                </div>
+                    @foreach ($files as $file)
+                        <form action="{{ route('files.share.store', $file) }}" method="POST">
+                            @csrf
+                            <label>Sélectionner un utilisateur</label>
+                            <div>
+                                @foreach($users as $user)
+                                    <div class="d-flex flex-column gap-2">
+                                        <div class="form-check">
+                                            <input name="user_ids[]" class="form-check-input" type="checkbox" value="{{ $user->id }}" id="user_{{ $user->id }}">
+                                            <label class="form-check-label" for="user_{{ $user->id }}">
+                                                {{ $user->name }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
-                        @endforeach
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary">Partager</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                <button type="submit" class="btn btn-primary">Partager</button>
+                            </div>
+                        </form>
+                    @endforeach
+
                 </div>
             </div>
         </div>

@@ -36,6 +36,6 @@ class File extends Model
 
     public function sharedWith()
     {
-        return $this->belongsTo(User::class, 'shares', 'file_id', 'user_id');
+        return $this->belongsToMany(User::class, 'shares', 'file_id', 'user_id');
     }
 }

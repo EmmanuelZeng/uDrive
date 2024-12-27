@@ -10,21 +10,38 @@ use Illuminate\Support\Facades\Storage;
 
 class FilesController extends Controller
 {
-    public function index(Request $request){
+    public function index(Request $request, File $file)
+    {
+        // Obtenir l'utilisateur connecté
+        $user = auth()->user();
 
-        $query = $request->user()->files();
-        $users = User::all();
+        // Récupérer les utilisateurs sauf l'utilisateur connecté et ceux ayant le rôle 2
+        $users = User::where('id', '!=', $user->id)
+                 ->where('role_id', '!=', 2)
+                 ->get();
 
+        // Construire la requête pour récupérer les fichiers créés ou partagés avec l'utilisateur
+        $query = File::where('user_id', $user->id)
+                 ->orWhereHas('sharedWith', function ($subQuery) use ($user) {
+                     $subQuery->where('user_id', $user->id);
+                 });
+
+        // Appliquer le filtre par dossier si nécessaire
         if ($request->has('folder_id')) {
             $query->where('folder_id', $request->folder_id);
         } else {
             $query->whereNull('folder_id');
         }
 
+        // Récupérer les fichiers paginés avec leurs dossiers associés
         $files = $query->with(['folder'])->latest()->paginate(20);
-        $folders = auth()->user()->folders()->get();
 
-        return view('pages.files.index', compact('files', 'folders', 'users'));
+        // Récupérer les dossiers de l'utilisateur connecté
+        $folders = $user->folders()->get();
+
+
+        // Retourner les données à la vue
+        return view('pages.files.index', compact('files', 'folders', 'users', 'file'));
     }
 
     public function store(Request $request)
@@ -61,9 +78,23 @@ class FilesController extends Controller
 
     public function download(File $file)
     {
-    return Storage::disk('public')->download(
-        $file->path,
-        $file->original_name
-    );
+        return Storage::disk('public')->download(
+            $file->path,
+            $file->original_name
+        );
     }
+
+    public function share(Request $request, File $file)
+    {
+        $request->validate([
+            'user_ids' => 'required|array',
+            'user_ids.*' => 'exists:users,id',
+        ]);
+
+        // Partager le fichier avec les utilisateurs sélectionnés
+        $file->sharedWith()->syncWithoutDetaching($request->user_ids);
+
+        return redirect()->route('files.index', $file);
+    }
+
 }
