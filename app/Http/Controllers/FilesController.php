@@ -41,7 +41,7 @@ class FilesController extends Controller
 
 
         // Retourner les données à la vue
-        return view('pages.files.index', compact('files', 'folders', 'users', 'file'));
+        return view('pages.files.index', compact('files', 'folders', 'users'));
     }
 
     public function store(Request $request)

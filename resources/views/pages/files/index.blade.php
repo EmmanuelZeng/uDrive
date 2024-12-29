@@ -86,21 +86,14 @@
             </div><!--//app-card-body-->
         </div><!--//app-card-->
     </div><!--//col-->
-    @empty
-        <h2 class="text-center">Pas de fichiers actuellement</h2>
-    @endforelse
-</div><!--//row-->
-@endsection
-@section('modal')
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Partager "Palmarès 2021-2022" à :</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Partager "{{$file->name}}" à :</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    @foreach ($files as $file)
                         <form action="{{ route('files.share.store', $file) }}" method="POST">
                             @csrf
                             <label>Sélectionner un utilisateur</label>
@@ -121,13 +114,16 @@
                                 <button type="submit" class="btn btn-primary">Partager</button>
                             </div>
                         </form>
-                    @endforeach
-
                 </div>
             </div>
         </div>
     </div>
-
+    @empty
+        <h2 class="text-center">Pas de fichiers actuellement</h2>
+    @endforelse
+</div><!--//row-->
+@endsection
+@section('modal')
   <!-- Deuxième modale -->
   <div class="modal fade" id="fileImportModal" tabindex="-1" aria-labelledby="fileImportModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
