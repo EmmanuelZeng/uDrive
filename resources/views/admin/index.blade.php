@@ -241,32 +241,29 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="auth-form login-form mt-3">
+                <form class="auth-form login-form mt-3" action="POST" method="{{route('users.register')}}">
+                    @csrf
+                    @method('POST')
                     <div class="name mb-3">
                         <label class="sr-only" for="name">Nom</label>
                         <input id="name" name="name" type="text" class="form-control name" placeholder="Nom utilisateur" required="required">
-                    </div><!--//form-group-->
-                    <div class="firstName mb-3">
-                        <label class="sr-only" for="firstName">Prenom</label>
-                        <input id="firstName" name="firstName" type="text" class="form-control firstName" placeholder="Prénom utilisateur" required="required">
                     </div><!--//form-group-->
                     <div class="email mb-3">
                         <label class="sr-only" for="email">Email</label>
                         <input id="email" name="email" type="email" class="form-control email" placeholder="Email Utilisateur" required="required">
                     </div><!--//form-group-->
+                    <div class="password mb-3">
+                        <label class="sr-only" for="signin-password">Mot de passe</label>
+                        <input id="signin-password" name="password" type="password" class="form-control signin-password" placeholder="Mot de Passe" required="required">
+                    </div><!--//form-group-->
                     <div class="role mb-3">
                         <label class="sr-only" for="role">Rôle</label>
                         <select name="role" id="role" class="form-control role" placeholder="Rôle Utilisateur" required="required">
                             <option value="" disabled selected>Rôle Utilisateur</option>
-                            <option value="">Chef du Département</option>
-                            <option value="">Secrétaire Chargé de l'enseignement</option>
-                            <option value="">Secrétaire Chargé de la Recherche</option>
-                            <option value="">Secrétaire du Département</p></option>
+                            @foreach ($roles as $role)
+                                <option value="{{$role->id}}">{{$role->code}}-{{$role->name}} </option>
+                            @endforeach
                         </select>
-                    </div><!--//form-group-->
-                    <div class="password mb-3">
-                        <label class="sr-only" for="signin-password">Mot de passe</label>
-                        <input id="signin-password" name="password" type="password" class="form-control signin-password" placeholder="Mot de Passe" required="required">
                     </div><!--//form-group-->
                     <div class="text-center">
                         <button type="submit" class="btn app-btn-primary w-100 theme-btn mx-auto">Ajouter</button>

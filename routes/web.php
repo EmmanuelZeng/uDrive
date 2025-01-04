@@ -20,6 +20,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware('auth')->group(function() {
     //Routes administrateur
     Route::get('admin', [AdminController::class, 'index'])->name('admin');
+    Route::post('admin', [AdminController::class, 'store'])->name('users.register');
     //Routes users simples
     Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
     Route::resource('dashboard/files', FilesController::class);
