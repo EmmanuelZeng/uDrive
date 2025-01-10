@@ -50,7 +50,7 @@ class FoldersController extends Controller
         $files = $folder->files()->latest()->paginate(20);
         $subfolders = $folder->children()->latest()->paginate(20);
 
-        return view('folders.show', compact('folder', 'files', 'subfolders'));
+        return view('pages.folders.show', compact('folder', 'files', 'subfolders'));
     }
 
     /**
