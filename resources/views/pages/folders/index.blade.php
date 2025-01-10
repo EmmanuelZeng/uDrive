@@ -9,10 +9,10 @@
         <div class="page-utilities">
            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
                <div class="col-auto">
-                   <a class="btn app-btn-primary" href="#">
+                   <button class="btn app-btn-primary" data-bs-toggle="modal" data-bs-target="#fileImportModal">
                         <i class="fa-solid fa-plus"></i>
                        Créer un dossier
-                   </a>
+                   </button>
                </div>
            </div><!--//row-->
        </div><!--//table-utilities-->
@@ -78,39 +78,59 @@
             </div><!--//app-card-->
         </div><!--//col-->
     @empty
-
+        <h2 class="text-center">Pas de dossiers actuellement</h2>
     @endforelse
 </div>
 @endsection
 @section('modal')
-    <!-- Boite modal pour Partager -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Deuxième modale -->
+    <div class="modal fade" id="fileImportModal" tabindex="-1" aria-labelledby="fileImportModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
+        <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Partager "Palmarès 2021-2022" à :</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="fileImportModalLabel">Créer un dossier</h5>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+            ></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex flex-column bd-highlight gap-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                          Emmanuel Zeng
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                        <label class="form-check-label" for="flexCheckChecked">
-                            Justice Mabeladi
-                        </label>
+                <form action="{{route('folders.store')}}" method="POST">
+                    @csrf
+                    <label for="folder_id" class="form-label">Sélectionner un dossier (optionnel) </label>
+                    <select name="folder_id" id="folder_id" class="form-control mb-4">
+                        <option value="">No parent folder</option>
+                        @foreach($folders as $folder)
+                        <option value="{{ $folder->id }}" {{ old('parent_id') == $folder->id ? 'selected' : '' }}>
+                            {{ $folder->path }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <input
+                        type="text"
+                        id="inputLibelle"
+                        class="form-control mb-4"
+                        name="name" multiple
+                        value="{{ old('name') }}"
+                        placeholder="Nom du dossier"
+                    >
+                    <div class="modal-footer">
+                        <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal"
+                        >
+                        Annuler
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="addLibelle">
+                        Créer
+                        </button>
                     </div>
-                </div>
+                </form>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-              <button type="button" class="btn btn-primary">Partager</button>
-            </div>
+        </div>
         </div>
     </div>
 @endsection
