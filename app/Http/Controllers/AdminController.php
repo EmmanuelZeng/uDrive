@@ -27,6 +27,6 @@ class AdminController extends Controller
             'password' => Hash::make($request->password),
             'role_id' => $request->role_id,
         ]);
-        return redirect()->back();
+        return redirect()->route('admin');
     }
 }
