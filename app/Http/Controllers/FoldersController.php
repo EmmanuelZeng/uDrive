@@ -46,11 +46,11 @@ class FoldersController extends Controller
     public function show(Folder $folder)
     {
         /* $this->authorize('view', $folder); */
-
+        $folders = auth()->user()->folders()->get();
         $files = $folder->files()->latest()->paginate(20);
         $subfolders = $folder->children()->latest()->paginate(20);
 
-        return view('pages.folders.show', compact('folder', 'files', 'subfolders'));
+        return view('pages.folders.show', compact('folders','folder', 'files', 'subfolders'));
     }
 
     /**
