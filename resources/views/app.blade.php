@@ -49,7 +49,102 @@
 		    </div><!--//container-fluid-->
 	    </div><!--//app-content-->
     </div><!--//app-wrapper-->
-    @yield('modal')
+    {{-- Modal qui permet d'importer un fichier --}}
+    <div class="modal fade" id="fileImportModal" tabindex="-1" aria-labelledby="fileImportModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="fileImportModal">Importation de fichier</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('files.store')}}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <label for="folder_id" class="form-label">Sélectionner un dossier (optionnel) </label>
+                    <select name="folder_id" id="folder_id" class="form-control mb-4">
+                        <option value="">Selectionner un dossier</option>
+                        @foreach ($folders as $folder)
+                        <option value="{{$folder->id}}"> {{$folder->path}} </option>
+                        @endforeach
+                    </select>
+                    <input
+                        type="file"
+                        id="inputLibelle"
+                        class="form-control mb-4"
+                        name="files[]" multiple
+                    >
+                    <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-outline-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Annuler
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="addLibelle">
+                          Importer
+                        </button>
+                    </div>
+                </form>
+            </div>
+          </div>
+        </div>
+    </div>
+    {{-- Modal qui permet de créer un dossier --}}
+    <div class="modal fade" id="createFolderModal" tabindex="-1" aria-labelledby="createFolderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="createFolderModalLabel">Créer un dossier</h5>
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+            ></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('folders.store')}}" method="POST">
+                    @csrf
+                    <label for="folder_id" class="form-label">Sélectionner un dossier (optionnel) </label>
+                    <select name="parent_id" id="folder_id" class="form-control mb-4">
+                        <option value="">No parent folder</option>
+                        @foreach($folders as $folder)
+                        <option value="{{ $folder->id }}" {{ old('parent_id') == $folder->id ? 'selected' : '' }}>
+                            {{ $folder->path }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <input
+                        type="text"
+                        id="inputLibelle"
+                        class="form-control mb-4"
+                        name="name" multiple
+                        value="{{ old('name') }}"
+                        placeholder="Nom du dossier"
+                    >
+                    <div class="modal-footer">
+                        <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal"
+                        >
+                        Annuler
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="addLibelle">
+                        Créer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
     <!-- Javascript -->
 
     <script src="{{ asset('assets/plugins/popper.min.js') }}"></script>

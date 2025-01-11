@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Folder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -36,7 +37,7 @@ class FoldersController extends Controller
             'path' => $path
         ]);
 
-        return redirect()->route('folders.show', $folder)
+        return redirect()->back()
             ->with('success', 'Folder created successfully');
     }
 
@@ -46,11 +47,17 @@ class FoldersController extends Controller
     public function show(Folder $folder)
     {
         /* $this->authorize('view', $folder); */
+        $user = auth()->user();
         $folders = auth()->user()->folders()->get();
         $files = $folder->files()->latest()->paginate(20);
         $subfolders = $folder->children()->latest()->paginate(20);
 
-        return view('pages.folders.show', compact('folders','folder', 'files', 'subfolders'));
+        $users = User::where('id', '!=', $user->id)
+                 ->where('role_id', '!=', 2)
+                 ->get();
+
+
+        return view('pages.folders.show', compact('folders','folder', 'files', 'subfolders', 'users'));
     }
 
     /**
@@ -64,7 +71,7 @@ class FoldersController extends Controller
             ->where('id', '!=', $folder->id)
             ->get();
 
-        return view('folders.edit', compact('folder', 'folders'));
+        return view('pages.folders.edit', compact('folder', 'folders'));
     }
 
     /**
@@ -113,7 +120,7 @@ class FoldersController extends Controller
 
         $folder->delete();
 
-        return redirect()->route('folders.index')
+        return redirect()->back()
             ->with('success', 'Folder deleted successfully');
     }
 

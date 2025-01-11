@@ -9,7 +9,7 @@
         <div class="page-utilities">
            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
                <div class="col-auto">
-                   <button class="btn app-btn-primary" data-bs-toggle="modal" data-bs-target="#fileImportModal">
+                   <button class="btn app-btn-primary" data-bs-toggle="modal" data-bs-target="#createFolderModal">
                         <i class="fa-solid fa-plus"></i>
                        Créer un dossier
                    </button>
@@ -30,10 +30,10 @@
                 </div>
                 <div class="app-card-body p-3 has-card-actions">
 
-                    <h4 class="app-doc-title truncate mb-0"><a href="#file-link"> {{$folder->name}} </a></h4>
+                    <h4 class="app-doc-title truncate mb-0"><a href="{{route('folders.show', $folder)}}"> {{$folder->name}} </a></h4>
                     <div class="app-doc-meta">
                         <ul class="list-unstyled mb-0">
-                            <li><span class="text-muted">Fichiers :</span>{{ $folder->files_count + $folder->children_count }}</li>
+                            <li><span class="text-muted">Elélents :</span>{{ $folder->files_count + $folder->children_count }}</li>
                             <li><span class="text-muted">Crée le :</span>{{$folder->created_at->format('d M, Y')}}</li>
                         </ul>
                     </div><!--//app-doc-meta-->
@@ -81,56 +81,4 @@
         <h2 class="text-center">Pas de dossiers actuellement</h2>
     @endforelse
 </div>
-@endsection
-@section('modal')
-    <!-- Deuxième modale -->
-    <div class="modal fade" id="fileImportModal" tabindex="-1" aria-labelledby="fileImportModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="fileImportModalLabel">Créer un dossier</h5>
-            <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-            ></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{route('folders.store')}}" method="POST">
-                    @csrf
-                    <label for="folder_id" class="form-label">Sélectionner un dossier (optionnel) </label>
-                    <select name="folder_id" id="folder_id" class="form-control mb-4">
-                        <option value="">No parent folder</option>
-                        @foreach($folders as $folder)
-                        <option value="{{ $folder->id }}" {{ old('parent_id') == $folder->id ? 'selected' : '' }}>
-                            {{ $folder->path }}
-                        </option>
-                        @endforeach
-                    </select>
-                    <input
-                        type="text"
-                        id="inputLibelle"
-                        class="form-control mb-4"
-                        name="name" multiple
-                        value="{{ old('name') }}"
-                        placeholder="Nom du dossier"
-                    >
-                    <div class="modal-footer">
-                        <button
-                        type="button"
-                        class="btn btn-outline-secondary"
-                        data-bs-dismiss="modal"
-                        >
-                        Annuler
-                        </button>
-                        <button type="submit" class="btn btn-primary" id="addLibelle">
-                        Créer
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        </div>
-    </div>
 @endsection

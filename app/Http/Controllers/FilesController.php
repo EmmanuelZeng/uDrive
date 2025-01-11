@@ -15,7 +15,6 @@ class FilesController extends Controller
         // Obtenir l'utilisateur connecté
         $user = auth()->user();
 
-        // Récupérer les utilisateurs sauf l'utilisateur connecté et ceux ayant le rôle 2
         $users = User::where('id', '!=', $user->id)
                  ->where('role_id', '!=', 2)
                  ->get();
@@ -73,7 +72,7 @@ class FilesController extends Controller
     {
         Storage::disk('public')->delete($file->path);
         $file->delete();
-        return redirect()->route('files.index');
+        return redirect()->back();
     }
 
     public function download(File $file)

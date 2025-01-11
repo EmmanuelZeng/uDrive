@@ -31,6 +31,16 @@ class Folder extends Model
         return $this->hasMany(Folder::class, 'parent_id');
     }
 
+    public function getFilesCountAttribute()
+    {
+        return $this->files()->count();
+    }
+
+    public function getChildrenCountAttribute()
+    {
+        return $this->children()->count();
+    }
+
     public function files()
     {
         return $this->hasMany(File::class);
