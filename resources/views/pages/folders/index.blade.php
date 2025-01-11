@@ -26,7 +26,7 @@
                     <span class="icon-holder">
                         <i class="fas fa-solid fa-folder text-file" style="color: #FFD700;"></i>
                     </span>
-                    <a class="app-card-link-mask" href=""></a>
+                    <a class="app-card-link-mask" href="{{route('folders.show', $folder)}}"></a>
                 </div>
                 <div class="app-card-body p-3 has-card-actions">
 
