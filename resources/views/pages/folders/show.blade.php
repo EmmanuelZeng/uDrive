@@ -9,7 +9,7 @@
         <div class="page-utilities">
            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
                <div class="col-auto">
-                   <button class="btn app-btn-primary" data-bs-toggle="modal" data-bs-target="#fileImportModal">
+                   <button class="btn app-btn-primary" data-bs-toggle="modal" data-bs-target="#createFolderModal">
                         <i class="fa-solid fa-plus"></i>
                        Créer un dossier
                    </button>
