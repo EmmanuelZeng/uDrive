@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use App\Models\User;
+use App\Models\Share;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -19,11 +20,14 @@ class FilesController extends Controller
                  ->where('role_id', '!=', 2)
                  ->get();
 
-        // Construire la requête pour récupérer les fichiers créés ou partagés avec l'utilisateur
-        $query = File::where('user_id', $user->id)
+        // Récupérer les fichiers créés ou partagés avec l'utilisateur
+        /* $query = File::where('user_id', $user->id)
                  ->orWhereHas('sharedWith', function ($subQuery) use ($user) {
                      $subQuery->where('user_id', $user->id);
-                 });
+                 }); */
+
+        // Récupérer les fichiers créés par l'utilisateur
+        $query = File::where('user_id', $user->id);
 
         // Appliquer le filtre par dossier si nécessaire
         if ($request->has('folder_id')) {
@@ -83,6 +87,7 @@ class FilesController extends Controller
         );
     }
 
+
     public function share(Request $request, File $file)
     {
         $request->validate([
@@ -93,6 +98,17 @@ class FilesController extends Controller
         // Partager le fichier avec les utilisateurs sélectionnés
         $file->sharedWith()->syncWithoutDetaching($request->user_ids);
 
+        /* $request->validate([
+            'user_ids' => 'required|array', // Liste des utilisateurs
+            'user_ids.*' => 'exists:users,id', // Chaque utilisateur doit exister
+        ]);
+
+        foreach ($request->user_ids as $userId) {
+            Share::create([
+                'file_id' => $file->id,
+                'user_id' => $userId,
+            ]);
+        } */
         return redirect()->route('files.index', $file);
     }
 

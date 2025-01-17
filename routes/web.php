@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function() {
     Route::get('/files/{file}/download', [FilesController::class, 'download'])->name('files.download');
     Route::post('/files/{file}/share', [FilesController::class, 'share'])->name('files.share.store');
     Route::resource('dashboard/folders', FoldersController::class);
-    Route::get('dashboard/sharedFiles', [SharedFilesController::class, 'index'])->name('sharedFiles');
+    Route::get('dashboard/sharedFiles', [SharedFilesController::class, 'index'])->name('sharedFiles.index');
+    //Route::get('/sharedFiles/{sharedFile}/download', [SharedFilesController::class, 'download'])->name('sharedFiles.download');
 });
 
