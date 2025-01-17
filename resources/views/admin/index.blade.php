@@ -173,54 +173,20 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr>
-												<td class="cell"><span class="">01</span></td>
-												<td class="cell"><span class="truncate">Emmanuel ZENG</span></td>
-												<td class="cell">elson.test@gmail.com</td>
-												<td class="cell"><span>Chef du Département</span></td>
-												<td class="cell">
-													<i class="fa-solid fa-trash"></i>
-												</td>
-												<td class="cell">
-                                                    <i class="fa-solid fa-edit"></i>
-												</td>
-											</tr>
-                                            <tr>
-												<td class="cell"><span class="">02</span></td>
-												<td class="cell"><span class="truncate">Ephraim ZOLA</span></td>
-												<td class="cell">ephraim.test@gmail.com</td>
-												<td class="cell"><span>Secrétaire Chargé de l'enseignement</span></td>
-												<td class="cell">
-													<i class="fa-solid fa-trash"></i>
-												</td>
-												<td class="cell">
-                                                    <i class="fa-solid fa-edit"></i>
-												</td>
-											</tr>
-                                            <tr>
-												<td class="cell"><span class="">03</span></td>
-												<td class="cell"><span class="truncate">Elione NGWADI</span></td>
-												<td class="cell">elione.test@gmail.com</td>
-												<td class="cell"><span>Secrétaire Chargé de la Recherche</span></td>
-												<td class="cell">
-													<i class="fa-solid fa-trash"></i>
-												</td>
-												<td class="cell">
-                                                    <i class="fa-solid fa-edit"></i>
-												</td>
-											</tr>
-                                            <tr>
-												<td class="cell"><span class="">04</span></td>
-												<td class="cell"><span class="truncate">Gadiel MAKUIKA</span></td>
-												<td class="cell">gadiel.test@gmail.com</td>
-												<td class="cell"><span>Secrétaire du Département</span></td>
-												<td class="cell">
-													<i class="fa-solid fa-trash"></i>
-												</td>
-												<td class="cell">
-                                                    <i class="fa-solid fa-edit"></i>
-												</td>
-											</tr>
+                                            @foreach ($users as $user)
+                                                <tr>
+                                                    <td class="cell"><span class=""> {{$user->id}} </span></td>
+                                                    <td class="cell"><span class="truncate">{{$user->name}}</span></td>
+                                                    <td class="cell">{{$user->email}}</td>
+                                                    <td class="cell"><span>{{$user->role->name}}</span></td>
+                                                    <td class="cell">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </td>
+                                                    <td class="cell">
+                                                        <i class="fa-solid fa-edit"></i>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
 										</tbody>
 									</table>
 						        </div><!--//table-responsive-->

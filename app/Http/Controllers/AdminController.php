@@ -11,7 +11,8 @@ class AdminController extends Controller
 {
     public function index(){
         $roles = Role::where('name', '!=', 'admin')->get();
-        return view('admin.index', compact('roles'));
+        $users = User::where('role_id', '!=', 1)->get();
+        return view('admin.index', compact('roles', 'users'));
     }
 
     public function store(Request $request){
