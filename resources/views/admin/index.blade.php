@@ -180,7 +180,11 @@
                                                     <td class="cell">{{$user->email}}</td>
                                                     <td class="cell"><span>{{$user->role->name}}</span></td>
                                                     <td class="cell">
-                                                        <i class="fa-solid fa-trash"></i>
+                                                        <form action="{{route('users.destroy', $user)}}" method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="border-0"><i class="fa-solid fa-trash"></i></button>
+                                                        </form>
                                                     </td>
                                                     <td class="cell">
                                                         <i class="fa-solid fa-edit"></i>
@@ -207,7 +211,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="auth-form login-form mt-3" action="POST" method="{{route('users.register')}}">
+                <form class="auth-form login-form mt-3" action="{{ route('users.store') }}" method="POST">
                     @csrf
                     @method('POST')
                     <div class="name mb-3">

@@ -53,7 +53,7 @@ class FoldersController extends Controller
         $subfolders = $folder->children()->latest()->paginate(20);
 
         $users = User::where('id', '!=', $user->id)
-                 ->where('role_id', '!=', 2)
+                 ->where('role_id', '!=', 1)
                  ->get();
 
 

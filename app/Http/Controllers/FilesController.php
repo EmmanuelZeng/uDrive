@@ -17,7 +17,7 @@ class FilesController extends Controller
         $user = auth()->user();
 
         $users = User::where('id', '!=', $user->id)
-                 ->where('role_id', '!=', 2)
+                 ->where('role_id', '!=', 1)
                  ->get();
 
         // Récupérer les fichiers créés ou partagés avec l'utilisateur
