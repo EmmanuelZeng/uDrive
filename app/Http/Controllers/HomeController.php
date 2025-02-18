@@ -24,7 +24,7 @@ class HomeController extends Controller
         $user = auth()->user();
 
         $users = User::where('id', '!=', $user->id)
-                 ->where('role_id', '!=', 2)
+                 ->where('role_id', '!=', 1)
                  ->get();
 
         // Construire la requête pour récupérer les fichiers créés ou partagés avec l'utilisateur
