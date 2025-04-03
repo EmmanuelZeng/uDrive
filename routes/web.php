@@ -9,8 +9,8 @@ use App\Http\Controllers\FoldersController;
 use App\Http\Controllers\SharedFilesController;
 
 //Routes de register
-/* Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'store'])->name('store'); */
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'store'])->name('store');
 //Routes de connexion
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'handleLogin'])->name('handleLogin');
